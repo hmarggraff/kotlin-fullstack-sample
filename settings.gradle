@@ -1,4 +1,3 @@
-rootProject.name = 'thinkter'
+rootProject.name = 'krapfe'
 
-include "backend", "frontend"
 

@@ -7,35 +7,44 @@ import org.w3c.fetch.*
 import kotlin.browser.*
 import kotlin.js.*
 
-suspend fun index(): IndexResponse =
-    getAndParseResult("/", null, ::parseIndexResponse)
+val user = User("usr", "me@me.to", "Niemand", "hash")
+val thought1 = Thought(1,"usr", "Cogito ergo sum.", "1.1.99", null)
 
-suspend fun register(userId: String, password: String, displayName: String, email: String): User =
+suspend fun index(): IndexResponse = IndexResponse(listOf(thought1), listOf(thought1))
+    //getAndParseResult("/", null, ::parseIndexResponse)
+
+suspend fun register(userId: String, password: String, displayName: String, email: String) = user
+        /*
     postAndParseResult("/register", URLSearchParams().apply {
         append("userId", userId)
         append("password", password)
         append("displayName", displayName)
         append("email", email)
     }, ::parseLoginOrRegisterResponse)
+    */
 
-suspend fun pollFromLastTime(lastTime: String = ""): String =
+suspend fun pollFromLastTime(lastTime: String = ""): String = "0"
+/*
     getAndParseResult<String>("/poll?lastTime=$lastTime", null, { json ->
         json.count
     })
+*/
+suspend fun checkSession(): User = user
+//    getAndParseResult("/login", null, ::parseLoginOrRegisterResponse)
 
-suspend fun checkSession(): User =
-    getAndParseResult("/login", null, ::parseLoginOrRegisterResponse)
-
-suspend fun login(userId: String, password: String): User =
-    postAndParseResult("/login", URLSearchParams().apply {
+suspend fun login(userId: String, password: String): User = user
+/*
+postAndParseResult("/login", URLSearchParams().apply {
         append("userId", userId)
         append("password", password)
     }, ::parseLoginOrRegisterResponse)
+    */
 
-suspend fun postThoughtPrepare(): PostThoughtToken =
-    getAndParseResult("/post-new", null, ::parseNewPostTokenResponse)
+suspend fun postThoughtPrepare(): PostThoughtToken = PostThoughtToken("usr", 1L, "xx")
+//    getAndParseResult("/post-new", null, ::parseNewPostTokenResponse)
 
-suspend fun postThought(replyTo: Int?, text: String, token: PostThoughtToken): Thought =
+suspend fun postThought(replyTo: Int?, text: String, token: PostThoughtToken): Thought = Thought(2,"usr", "To be or not to be.", "1.1.2001", 1)
+/*
     postAndParseResult("/post-new", URLSearchParams().apply {
         append("text", text)
         append("date", token.date.toString())
@@ -44,19 +53,24 @@ suspend fun postThought(replyTo: Int?, text: String, token: PostThoughtToken): T
             append("replyTo", replyTo.toString())
         }
     }, ::parsePostThoughtResponse)
+    */
 
 suspend fun logoutUser() {
+    /*
     window.fetch("/logout", object : RequestInit {
         override var method: String? = "POST"
         override var credentials: RequestCredentials? = "same-origin".asDynamic()
     }).await()
+    */
 }
 
-suspend fun deleteThought(id: Int, date: Long, code: String) =
+suspend fun deleteThought(id: Int, date: Long, code: String) {}
+/*
     postAndParseResult("/thought/$id/delete", URLSearchParams().apply {
         append("date", date.toString())
         append("code", code)
     }, { Unit })
+*/
 
 private fun parseIndexResponse(json: dynamic): IndexResponse {
     val top = json.top as Array<dynamic>

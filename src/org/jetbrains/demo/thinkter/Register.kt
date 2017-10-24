@@ -6,7 +6,6 @@ import org.jetbrains.common.*
 import org.jetbrains.demo.thinkter.model.*
 import react.*
 import react.dom.*
-import kotlin.browser.*
 import kotlinx.coroutines.experimental.async
 
 
